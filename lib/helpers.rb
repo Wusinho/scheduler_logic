@@ -12,7 +12,7 @@ module Helpers
   def available_hours_str_to_i(range)
     workers_ranges = []
 
-    if range.length == 1
+    if range.length.eql? 1
       workers_ranges << range.first.split('-').map(&:to_i)
     else
       range.each do |workers_hr_range|

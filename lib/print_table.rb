@@ -14,7 +14,7 @@ class PrintTable
   def print_schedule
     daily_sifts = create_daily_ranges(@supervised_hours)
     daily_sifts.each do |hour|
-      selected = @schedule.find { |ele| ele[:hours] == hour }
+      selected = @schedule.find { |obj| obj[:hours] == hour }
       if selected
         print_square(selected[:hours], selected[:worker_id])
       else
