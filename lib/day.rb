@@ -2,6 +2,7 @@
 
 require_relative 'helpers'
 
+# creating day
 class Day
   include Helpers
 
@@ -18,9 +19,9 @@ class Day
     @working_schedule = []
   end
 
-  def add_conflicts(conflictions, range_1, range_2, range, conflicted_hours)
-    conflictions << { "worker_id": range_1.id, "hours": range }
-    conflictions << { "worker_id": range_2.id, "hours": range }
+  def add_conflicts(conflictions, range1, range2, range, conflicted_hours)
+    conflictions << { "worker_id": range1.id, "hours": range }
+    conflictions << { "worker_id": range2.id, "hours": range }
     conflicted_hours << range
   end
 
@@ -44,12 +45,12 @@ class Day
         combined_ids = ids.combination(2).to_a
 
         combined_ids.each do |combination|
-          worker_1 = find_turns_by_id(combination[0])
-          worker_2 = find_turns_by_id(combination[1])
+          worker1 = find_turns_by_id(combination[0])
+          worker2 = find_turns_by_id(combination[1])
 
-          worker_1.worker_range.each do |range|
-            if worker_2.worker_range.include?(range)
-              add_conflicts(@conflictions, worker_1, worker_2, range,
+          worker1.worker_range.each do |range|
+            if worker2.worker_range.include?(range)
+              add_conflicts(@conflictions, worker1, worker2, range,
                             @conflicted_hours)
             end
           end
@@ -64,7 +65,7 @@ class Day
 
           @working_schedule << { "worker_id": worker.id, "hours": pair }
 
-          updating_fields_if_criteria_met(worker, pair)
+          updating_fields(worker, pair)
         end
       end
 
@@ -86,7 +87,7 @@ class Day
 
         @working_schedule << { "worker_id": worker.id, "hours": pair }
 
-        updating_fields_if_criteria_met(worker, pair)
+        updating_fields(worker, pair)
       end
     end
   end
@@ -102,23 +103,17 @@ class Day
 
         @working_schedule << { "worker_id": worker.id, "hours": conflicted_hour }
 
-        updating_fields_if_criteria_met(worker, conflicted_hour)
+        updating_fields(worker, conflicted_hour)
         @conflicted_hours -= [conflicted_hour]
         next
       end
     end
   end
 
-  def updating_fields_if_criteria_met(worker, pair)
+  def updating_fields(worker, pair)
     @range_supervised_hours -= [pair]
     worker.adding_working_hours
     worker.able_to_work = false if worker.working_hours_counter == @max_hours_per_worker
-  end
-
-  def check_if_supervised_hours_completed
-    return 'Completed' if @range_supervised_hours.empty?
-
-    "The : #{@range_supervised_hours} are missing"
   end
 
   def select_workers_able_to_work

@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# helper methods
 module Helpers
   def create_hourly_ranges(range)
     hour_ranges = []

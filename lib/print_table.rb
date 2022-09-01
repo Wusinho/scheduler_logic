@@ -2,6 +2,7 @@
 
 require_relative 'helpers'
 
+# print table
 class PrintTable
   include Helpers
 
