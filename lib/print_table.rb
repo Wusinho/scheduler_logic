@@ -19,7 +19,6 @@ class PrintTable
         print_square(selected[:hours], selected[:worker_id])
       else
         print_square(hour, '---')
-
       end
     end
   end
