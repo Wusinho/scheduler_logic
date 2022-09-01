@@ -6,7 +6,7 @@ require_relative 'helpers'
 class Day
   include Helpers
 
-  attr_reader :conflicted_hours, :working_schedule, :conflictions
+  attr_reader :conflicted_hours, :working_schedule, :conflicts
   attr_accessor :daily_turns, :supervised_hours, :range_supervised_hours
 
   def initialize(daily_turns, supervised_hours)
@@ -14,19 +14,19 @@ class Day
     @supervised_hours = available_hours_str_to_i(supervised_hours)
     @range_supervised_hours = create_daily_ranges(@supervised_hours)
     @max_hours_per_worker = 8
-    @conflictions = []
+    @conflicts = []
     @conflicted_hours = []
     @working_schedule = []
   end
 
-  def add_conflicts(conflictions, range1, range2, range, conflicted_hours)
-    conflictions << { "worker_id": range1.id, "hours": range }
-    conflictions << { "worker_id": range2.id, "hours": range }
+  def add_conflicts(conflicts, range1, range2, range, conflicted_hours)
+    conflicts << { "worker_id": range1.id, "hours": range }
+    conflicts << { "worker_id": range2.id, "hours": range }
     conflicted_hours << range
   end
 
   def reset_conflictions
-    @conflictions = []
+    @conflicts = []
     @conflicted_hours = []
   end
 
@@ -50,7 +50,7 @@ class Day
 
           worker1.worker_range.each do |range|
             if worker2.worker_range.include?(range)
-              add_conflicts(@conflictions, worker1, worker2, range,
+              add_conflicts(@conflicts, worker1, worker2, range,
                             @conflicted_hours)
             end
           end
