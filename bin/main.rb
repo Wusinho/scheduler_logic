@@ -6,7 +6,7 @@ require_relative '../lib/print_table'
 
 bot1 = DailyTurns.new(['0-24'], 3)
 bot2 = DailyTurns.new(%w[0-6 9-12], 1)
-bot3 = DailyTurns.new(['8-16'], 2,)
+bot3 = DailyTurns.new(['8-16'], 2)
 
 all_turns = [bot1, bot2, bot3]
 
