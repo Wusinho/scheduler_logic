@@ -72,25 +72,26 @@ class Day
       loop_counter += 1
 
     end
+    puts @conflicts
   end
 
   def find_turns_by_id(id)
     @daily_turns.find { |turn| turn.id == id }
   end
 
-  def checking_hours
-    @daily_turns.each do |worker|
-      worker.worker_range.each do |pair|
-        next unless worker.able_to_work
-
-        next unless @range_supervised_hours.include?(pair) && !@conflicted_hours.include?(pair)
-
-        @working_schedule << { "worker_id": worker.id, "hours": pair }
-
-        updating_fields(worker, pair)
-      end
-    end
-  end
+  # def checking_hours
+  #   @daily_turns.each do |worker|
+  #     worker.worker_range.each do |pair|
+  #       next unless worker.able_to_work
+  #
+  #       next unless @range_supervised_hours.include?(pair) && !@conflicted_hours.include?(pair)
+  #
+  #       @working_schedule << { "worker_id": worker.id, "hours": pair }
+  #
+  #       updating_fields(worker, pair)
+  #     end
+  #   end
+  # end
 
   def resolve_conflicted_hours
     return if @range_supervised_hours.empty?
