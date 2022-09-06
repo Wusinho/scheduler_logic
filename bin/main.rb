@@ -15,7 +15,9 @@ monday = Day.new(all_turns, ['0-24'])
 # p monday.daily_turns.last
 monday.fill_unconflicted_hours
 monday.fill_conflicted_hours
-monday.resolve_conflicted_hours
+monday.creating_nodes
+# p monday.array_nodes.size
+# monday.array_nodes.each { |node| p node }
 # p monday.range_supervised_hours
 # monday.daily_turns.each { |worker| p worker.working_hours_counter}
 # monday.resolve_conflicted_hours

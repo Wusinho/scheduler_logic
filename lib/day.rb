@@ -1,12 +1,13 @@
 # frozen_string_literal: true
 
 require_relative 'helpers'
+require_relative 'array_list'
 
 # creating day
 class Day
   include Helpers
 
-  attr_reader :conflicted_hours, :working_schedule, :conflicts
+  attr_reader :conflicted_hours, :working_schedule, :conflicts, :array_nodes
   attr_accessor :daily_turns, :supervised_hours, :range_supervised_hours
 
   def initialize(daily_turns, supervised_hours)
@@ -17,6 +18,7 @@ class Day
     @conflicts = {}
     @conflicted_hours = []
     @working_schedule = []
+    @array_nodes = []
   end
 
   def fill_conflicted_hours
@@ -85,25 +87,30 @@ class Day
   #   end
   # end
 
-  def resolve_conflicted_hours
+  def creating_nodes
     return if @range_supervised_hours.empty?
 
-    @conflicts.each do |_conflicted_hour, workers|
-      p workers
-      # p worker
-      # @conflicted_hours.each do |conflicted_hour|
-      #   next unless worker.able_to_work
-      #
-      #   next unless worker.worker_range.include?(conflicted_hour)
-      #
-      #   @working_schedule << { "worker_id": worker.id, "hours": conflicted_hour }
-      #
-      #   updating_workers_hours(worker, conflicted_hour)
-      #   @conflicted_hours -= [conflicted_hour]
-      #   next
-      # end
+
+    @conflicts.each do |conflicted_hour, workers|
+      p conflicted_hour
+      workers.each do |worker|
+        # @array_nodes << ArrayList.new(conflicted_hour, worker, @max_hours_per_worker) #unless node_exists?(worker.id)
+
+        # node = find_correct_node(worker.id)
+        # node.first.add(conflicted_hour)
+
+      end
     end
   end
+
+  def node_exists?(worker_id)
+    @array_nodes.any? { |node| node.worker_id == worker_id }
+  end
+
+  def find_correct_node(worker_id)
+    @array_nodes.select { |node| node.worker_id == worker_id }
+  end
+
 
   def updating_workers_hours(worker, pair)
     @range_supervised_hours -= [pair]
