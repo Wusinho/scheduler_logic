@@ -30,50 +30,32 @@ class Day
     @conflicted_hours = []
   end
 
-  def check_conflicted_hours
-    loop_counter = 0
-
-    until loop_counter == @daily_turns.size
-
-      ids = []
-      reset_conflictions
-
-      @daily_turns.each { |worker| ids << worker.id if worker.able_to_work }
-
-      if ids.length != 1
-
-        combined_ids = ids.combination(2).to_a
-
-        combined_ids.each do |combination|
-          worker1 = find_turns_by_id(combination[0])
-          worker2 = find_turns_by_id(combination[1])
-
-          worker1.worker_range.each do |range|
-            if worker2.worker_range.include?(range)
-              add_conflicts(@conflicts, worker1, worker2, range,
-                            @conflicted_hours)
-            end
-          end
-        end
-      end
-
-      @daily_turns.each do |worker|
-        worker.worker_range.each do |pair|
-          next unless worker.able_to_work
-
-          next unless @range_supervised_hours.include?(pair) && !@conflicted_hours.include?(pair)
-
-          @working_schedule << { "worker_id": worker.id, "hours": pair }
-
-          updating_fields(worker, pair)
-        end
-      end
-
-      loop_counter += 1
+  def loop_unconflicted_hours
+    @daily_turns.length.times do |_i|
+      eval_range_supervised_hours = @range_supervised_hours
+      check_unconflicted_hours
+      break if eval_range_supervised_hours == @range_supervised_hours
 
     end
-    puts @conflicts
   end
+
+  def check_unconflicted_hours
+    @range_supervised_hours.each do |supervised_hr|
+      eval_params = { times_included: 0, unique_worker: nil }
+      @daily_turns.each do |worker|
+        next if !worker.able_to_work || eval_params[:times_included] >= 2
+
+        add_params_counter(eval_params, worker) if worker.worker_range.include?(supervised_hr)
+      end
+      updating_workers_hours(eval_params[:unique_worker], supervised_hr) if eval_params[:times_included] == 1
+    end
+  end
+
+  def add_params_counter(eval_params, worker)
+    eval_params[:times_included] += 1
+    eval_params[:unique_worker] = worker
+  end
+
 
   def find_turns_by_id(id)
     @daily_turns.find { |turn| turn.id == id }
@@ -104,16 +86,16 @@ class Day
 
         @working_schedule << { "worker_id": worker.id, "hours": conflicted_hour }
 
-        updating_fields(worker, conflicted_hour)
+        updating_workers_hours(worker, conflicted_hour)
         @conflicted_hours -= [conflicted_hour]
         next
       end
     end
   end
 
-  def updating_fields(worker, pair)
+  def updating_workers_hours(worker, pair)
     @range_supervised_hours -= [pair]
-    worker.adding_working_hours
+    worker.add_one_working_hour
     worker.able_to_work = false if worker.working_hours_counter == @max_hours_per_worker
   end
 

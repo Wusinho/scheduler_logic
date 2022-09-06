@@ -17,7 +17,7 @@ class DailyTurns
     @working_hours_counter = 0
   end
 
-  def adding_working_hours
+  def add_one_working_hour
     @working_hours_counter += 1
   end
 end
