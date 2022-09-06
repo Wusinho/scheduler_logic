@@ -22,5 +22,3 @@ monday.resolve_conflicted_hours
 # p monday.daily_turns
 # table = PrintTable.new(monday.supervised_hours, monday.working_schedule)
 # table.print_schedule
-
-
