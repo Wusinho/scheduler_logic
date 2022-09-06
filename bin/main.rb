@@ -13,10 +13,14 @@ all_turns = [bot1, bot2, bot3]
 
 monday = Day.new(all_turns, ['0-24'])
 # p monday.daily_turns.last
-monday.loop_unconflicted_hours
+monday.fill_unconflicted_hours
+monday.fill_conflicted_hours
+monday.resolve_conflicted_hours
 # p monday.range_supervised_hours
-monday.daily_turns.each { |worker| p worker.working_hours_counter}
+# monday.daily_turns.each { |worker| p worker.working_hours_counter}
 # monday.resolve_conflicted_hours
 # p monday.daily_turns
 # table = PrintTable.new(monday.supervised_hours, monday.working_schedule)
 # table.print_schedule
+
+

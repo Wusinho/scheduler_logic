@@ -14,15 +14,26 @@ class Day
     @supervised_hours = available_hours_str_to_i(supervised_hours)
     @range_supervised_hours = create_daily_ranges(@supervised_hours)
     @max_hours_per_worker = 8
-    @conflicts = []
+    @conflicts = {}
     @conflicted_hours = []
     @working_schedule = []
   end
 
-  def add_conflicts(conflicts, range1, range2, range, conflicted_hours)
-    conflicts << { "worker_id": range1.id, "hours": range }
-    conflicts << { "worker_id": range2.id, "hours": range }
-    conflicted_hours << range
+  def fill_conflicted_hours
+    return if @range_supervised_hours.empty?
+
+    workers_conflicted_hrs.each do |worker|
+      @range_supervised_hours.each do |supervised_hour|
+        add_conflicts(@conflicts, worker, supervised_hour) if worker.worker_range.include?(supervised_hour)
+      end
+    end
+
+  end
+
+  def add_conflicts(conflicts, worker, supervised_range)
+    conflicts[supervised_range] = [] if conflicts[supervised_range].nil?
+    conflicts[supervised_range] << worker
+    @conflicted_hours << supervised_range unless @conflicted_hours.include?(supervised_range)
   end
 
   def reset_conflictions
@@ -30,7 +41,7 @@ class Day
     @conflicted_hours = []
   end
 
-  def loop_unconflicted_hours
+  def fill_unconflicted_hours
     @daily_turns.length.times do |_i|
       eval_range_supervised_hours = @range_supervised_hours
       check_unconflicted_hours
@@ -56,7 +67,6 @@ class Day
     eval_params[:unique_worker] = worker
   end
 
-
   def find_turns_by_id(id)
     @daily_turns.find { |turn| turn.id == id }
   end
@@ -78,18 +88,20 @@ class Day
   def resolve_conflicted_hours
     return if @range_supervised_hours.empty?
 
-    select_workers_able_to_work.each do |worker|
-      @conflicted_hours.each do |conflicted_hour|
-        next unless worker.able_to_work
-
-        next unless worker.worker_range.include?(conflicted_hour)
-
-        @working_schedule << { "worker_id": worker.id, "hours": conflicted_hour }
-
-        updating_workers_hours(worker, conflicted_hour)
-        @conflicted_hours -= [conflicted_hour]
-        next
-      end
+    @conflicts.each do |_conflicted_hour, workers|
+      p workers
+      # p worker
+      # @conflicted_hours.each do |conflicted_hour|
+      #   next unless worker.able_to_work
+      #
+      #   next unless worker.worker_range.include?(conflicted_hour)
+      #
+      #   @working_schedule << { "worker_id": worker.id, "hours": conflicted_hour }
+      #
+      #   updating_workers_hours(worker, conflicted_hour)
+      #   @conflicted_hours -= [conflicted_hour]
+      #   next
+      # end
     end
   end
 
@@ -99,7 +111,7 @@ class Day
     worker.able_to_work = false if worker.working_hours_counter == @max_hours_per_worker
   end
 
-  def select_workers_able_to_work
+  def workers_conflicted_hrs
     @daily_turns.find_all(&:able_to_work)
   end
 end
