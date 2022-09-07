@@ -12,8 +12,8 @@ class Node
     @next_node = nil
   end
 
-  def add_working_hr(hrs)
-    @working_hrs += hrs
+  def add_working_hr
+    @working_hrs += 1
   end
 
 end
