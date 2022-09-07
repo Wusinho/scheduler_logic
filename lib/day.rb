@@ -19,6 +19,7 @@ class Day
     @conflicted_hours = []
     @working_schedule = []
     @array_nodes = []
+    @nodes_counter = 0
   end
 
   def fill_conflicted_hours
@@ -73,32 +74,20 @@ class Day
     @daily_turns.find { |turn| turn.id == id }
   end
 
-  # def checking_hours
-  #   @daily_turns.each do |worker|
-  #     worker.worker_range.each do |pair|
-  #       next unless worker.able_to_work
-  #
-  #       next unless @range_supervised_hours.include?(pair) && !@conflicted_hours.include?(pair)
-  #
-  #       @working_schedule << { "worker_id": worker.id, "hours": pair }
-  #
-  #       updating_fields(worker, pair)
-  #     end
-  #   end
-  # end
+  def total_nodes_counter
+    total_nodes = 1
+    @nodes_counter = @conflicts.map { |_key, val| total_nodes *= val.size }.sum
+  end
 
-  def creating_nodes
-    return if @range_supervised_hours.empty?
+  def creating_head_nodes
+    return if @range_supervised_hours.empty? || @conflicts.empty?
 
+    total_nodes_counter
+    times_iterating = @nodes_counter / @conflicts.first.last.size
 
-    @conflicts.each do |conflicted_hour, workers|
-      p conflicted_hour
-      workers.each do |worker|
-        # @array_nodes << ArrayList.new(conflicted_hour, worker, @max_hours_per_worker) #unless node_exists?(worker.id)
-
-        # node = find_correct_node(worker.id)
-        # node.first.add(conflicted_hour)
-
+    @conflicts.first.last.each do |worker|
+      times_iterating.times do |_i|
+        @array_nodes << ArrayList.new(@conflicts.first.first, worker, @max_hours_per_worker)
       end
     end
   end
