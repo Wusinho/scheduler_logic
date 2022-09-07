@@ -18,7 +18,8 @@ monday.fill_unconflicted_hours
 monday.fill_conflicted_hours
 # monday.total_nodes_counter
 monday.creating_head_nodes
-monday.add_workers_nodes
+p monday.working_schedule
+monday.create_node_sequence
 # p monday.array_nodes
 monday.array_nodes.each do |node|
   p node

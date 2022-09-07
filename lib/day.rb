@@ -104,7 +104,7 @@ class Day
     getting_series_to_add_in_nodes(workers_per_lvl, series_per_level)
   end
 
-  def add_workers_nodes
+  def create_node_sequence
     node_sequence = add_complete_series_per_level
 
     node_sequence.each_with_index do |series, i|
@@ -136,30 +136,6 @@ class Day
     result = []
     no_iterations.times { |index| result << node_series[index] / divisor[index] }
     result
-  end
-
-  def create_node_sequence
-
-
-
-
-
-
-
-
-    # @nodes_series.each do |sequence|
-    #     sequence.times do |_i|
-    #       @array_nodes.each do |node|
-    #
-    #       @conflicts.each do |supervised_hr, workers|
-    #         workers.each do |worker|
-    #           node.add(supervised_hr, worker.id, worker.working_hours_counter )
-    #         end
-    #       end
-    #     end
-    #   end
-    # end
-
   end
 
   def node_exists?(worker_id)
