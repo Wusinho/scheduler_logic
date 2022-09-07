@@ -39,11 +39,6 @@ class Day
     @conflicted_hours << supervised_range unless @conflicted_hours.include?(supervised_range)
   end
 
-  def reset_conflictions
-    @conflicts = []
-    @conflicted_hours = []
-  end
-
   def fill_unconflicted_hours
     @daily_turns.length.times do |_i|
       eval_range_supervised_hours = @range_supervised_hours
@@ -68,10 +63,6 @@ class Day
   def add_params_counter(eval_params, worker)
     eval_params[:times_included] += 1
     eval_params[:unique_worker] = worker
-  end
-
-  def find_turns_by_id(id)
-    @daily_turns.find { |turn| turn.id == id }
   end
 
   def nodes_series
@@ -101,7 +92,13 @@ class Day
   end
 
   def create_node_sequence
+    serialized_conflicts = @conflicts.to_a
     # [6,12]
+    @nodes_series.length.times do |index|
+      p serialized_conflicts[index].first
+      p serialized_conflicts[index].last
+    end
+
 
 
 

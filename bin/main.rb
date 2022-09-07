@@ -19,11 +19,11 @@ monday.fill_conflicted_hours
 # monday.total_nodes_counter
 monday.creating_head_nodes
 monday.create_node_sequence
-monday.array_nodes.each do |node|
-  p node
-end
-
-p monday.array_nodes.size
+# monday.array_nodes.each do |node|
+#   p node
+# end
+#
+# p monday.array_nodes.size
 # p monday.array_nodes.size
 
 
