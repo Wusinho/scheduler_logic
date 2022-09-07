@@ -22,6 +22,8 @@ monday.create_node_sequence
 monday.array_nodes.each do |node|
   p node
 end
+
+p monday.array_nodes.size
 # p monday.array_nodes.size
 
 

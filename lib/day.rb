@@ -19,7 +19,7 @@ class Day
     @conflicted_hours = []
     @working_schedule = []
     @array_nodes = []
-    @nodes_series = nil
+    @nodes_series = []
   end
 
   def fill_conflicted_hours
@@ -79,9 +79,7 @@ class Day
     @nodes_series = @conflicts.map { |_key, val| total_nodes *= val.size }
   end
 
-
-
-  def remove_unnecessary_sequence
+  def remove_head_processed_sequence
     @conflicts.shift
     @nodes_series.shift
   end
@@ -90,34 +88,40 @@ class Day
     return if @range_supervised_hours.empty? || @conflicts.empty?
 
     nodes_series
-    nodes_counter = @nodes_series.sum
+    nodes_counter = @nodes_series.last
 
-    times_iterating = nodes_counter / nodes_series.first
-    times_iterating.times do |_i|
-      @conflicts.first.last.each do |worker|
+    times_iterating = nodes_counter / @nodes_series.first
+
+    @conflicts.first.last.each do |worker|
+      times_iterating.times do |_i|
         @array_nodes << ArrayList.new(@conflicts.first.first, worker, @max_hours_per_worker)
       end
     end
-    remove_unnecessary_sequence
+    remove_head_processed_sequence
   end
 
   def create_node_sequence
     # [6,12]
-    @nodes_series.each do |sequence|
-        sequence.times do |_i|
-          @array_nodes.each do |node|
 
-          @conflicts.each do |supervised_hr, workers|
-            workers.each do |worker|
-              node.add(supervised_hr, worker.id, worker.working_hours_counter )
-            end
-          end
-        end
-      end
-    end
+
+
+
+
+
+    # @nodes_series.each do |sequence|
+    #     sequence.times do |_i|
+    #       @array_nodes.each do |node|
+    #
+    #       @conflicts.each do |supervised_hr, workers|
+    #         workers.each do |worker|
+    #           node.add(supervised_hr, worker.id, worker.working_hours_counter )
+    #         end
+    #       end
+    #     end
+    #   end
+    # end
 
   end
-
 
   def node_exists?(worker_id)
     @array_nodes.any? { |node| node.worker_id == worker_id }
@@ -126,7 +130,6 @@ class Day
   def find_correct_node(worker_id)
     @array_nodes.select { |node| node.worker_id == worker_id }
   end
-
 
   def updating_workers_hours(worker, pair)
     @range_supervised_hours -= [pair]
