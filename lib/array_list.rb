@@ -3,37 +3,54 @@
 # creating a simple node
 class Node
   attr_reader :supervised_hour, :worker_id
-  attr_accessor :next_node, :max_working_hours
+  attr_accessor :next_node, :working_hrs
 
-  def initialize(supervised_hour, worker_id, max_hrs_per_worker = 8, max_working_hours = 1)
+  def initialize(supervised_hour, worker_id, working_hrs = 1)
     @supervised_hour = supervised_hour
-    @max_hrs_per_worker = max_hrs_per_worker
-    @max_working_hours = max_working_hours
+    @working_hrs = working_hrs
     @worker_id = worker_id
     @next_node = nil
   end
+
+  def add_working_hr(hrs)
+    @working_hrs += hrs
+  end
+
 end
 
 # create arraylist
 class ArrayList
   attr_reader :worker_id
 
-  def initialize(supervised_hour, worker, max_hrs_per_hour)
-    @cumulative_working_hrs = 0
-    @worker_hours_counter = worker.working_hours_counter
-    @max_hrs_per_hour = max_hrs_per_hour
-    @head = Node.new(supervised_hour, worker.id, max_hrs_per_hour)
+  def initialize(supervised_hour, worker, max_hrs_per_day = 8)
+    @max_hrs_per_day = max_hrs_per_day
+    @enable_to_add_sequence = true
+    @head = Node.new(supervised_hour, worker.id, worker.working_hours_counter)
   end
 
-  def add(supervised_hour, worker_id)
+  def add(supervised_hour, worker_id, working_hours)
+    return unless @enable_to_add_sequence
+
     current_node = @head
+    add_hr_counter = 0
 
-    add_working_hrs
-    current_node = current_node.next_node until current_node.next_node.nil?
+    until current_node.next_node.nil?
+      add_hr_counter += 1 if current_node.worker_id == worker_id
+      current_node = current_node.next_node
+    end
 
-    current_node.next_node = Node.new(supervised_hour, worker_id, @max_hrs_per_hour, @cumulative_working_hrs)
+    current_node.next_node = Node.new(supervised_hour, worker_id, working_hours)
+
+    add_hr_counter.zero? ? current_node.add_working_hr(1) : current_node.add_working_hr(add_hr_counter)
+
+    @enable_to_sequence = false if continue_sequence?(current_node)
 
   end
+
+  def continue_sequence?(current_node)
+    current_node.working_hrs > @max_hrs_per_day
+  end
+
 
   def print_arraylist
     current_node = @head
@@ -50,10 +67,6 @@ class ArrayList
       return current_node.supervised_hour if current_node.max_working_hours == index
       # p current_node.max_working_hours
     end
-  end
-
-  def add_working_hrs
-    @working_hrs += 1
   end
 
 end

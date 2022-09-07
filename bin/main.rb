@@ -18,7 +18,7 @@ monday.fill_unconflicted_hours
 monday.fill_conflicted_hours
 # monday.total_nodes_counter
 monday.creating_head_nodes
-p monday.array_nodes.size
+p monday.array_nodes
 # monday.array_nodes.each { |node| p node }
 # p monday.range_supervised_hours
 # monday.daily_turns.each { |worker| p worker.working_hours_counter}
