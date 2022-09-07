@@ -30,6 +30,7 @@ class ArrayList
     return unless @enable_to_add_sequence
 
     current_node = @head
+    @enable_to_add_sequence = false if continue_sequence?(current_node)
 
     until current_node.next_node.nil?
       current_node = current_node.next_node
@@ -39,12 +40,11 @@ class ArrayList
     current_node.next_node = Node.new(supervised_hour, worker_id, working_hours)
     current_node.add_working_hr
 
-    @enable_to_sequence = false if continue_sequence?(current_node)
-
+    @enable_to_add_sequence = false if continue_sequence?(current_node)
   end
 
   def continue_sequence?(current_node)
-    current_node.working_hrs > @max_hrs_per_day
+    current_node.add_working_hr > @max_hrs_per_day
   end
 
 
