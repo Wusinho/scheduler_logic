@@ -19,7 +19,6 @@ class Day
     @conflicted_hours = []
     @working_schedule = []
     @array_nodes = []
-    @nodes_counter = 0
   end
 
   def fill_conflicted_hours
@@ -74,16 +73,16 @@ class Day
     @daily_turns.find { |turn| turn.id == id }
   end
 
-  def total_nodes_counter
+  def nodes_series
     total_nodes = 1
-    @nodes_counter = @conflicts.map { |_key, val| total_nodes *= val.size }.sum
+    @conflicts.map { |_key, val| total_nodes *= val.size }
   end
 
   def creating_head_nodes
     return if @range_supervised_hours.empty? || @conflicts.empty?
 
-    total_nodes_counter
-    times_iterating = @nodes_counter / @conflicts.first.last.size
+    nodes_counter = nodes_series.sum
+    times_iterating = nodes_counter / nodes_series.first.size
 
     @conflicts.first.last.each do |worker|
       times_iterating.times do |_i|
@@ -91,6 +90,12 @@ class Day
       end
     end
   end
+
+  def create_node_sequence
+
+
+  end
+
 
   def node_exists?(worker_id)
     @array_nodes.any? { |node| node.worker_id == worker_id }

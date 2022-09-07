@@ -19,20 +19,19 @@ class ArrayList
   attr_reader :worker_id
 
   def initialize(supervised_hour, worker, max_hrs_per_hour)
-    @working_hrs = 0
+    @cumulative_working_hrs = 0
     @worker_hours_counter = worker.working_hours_counter
-    @worker_id = worker.id
     @max_hrs_per_hour = max_hrs_per_hour
-    @head = Node.new(supervised_hour, @worker_id, max_hrs_per_hour)
+    @head = Node.new(supervised_hour, worker.id, max_hrs_per_hour)
   end
 
-  def add(supervised_hour)
+  def add(supervised_hour, worker_id)
     current_node = @head
 
     add_working_hrs
     current_node = current_node.next_node until current_node.next_node.nil?
 
-    current_node.next_node = Node.new(supervised_hour, @worker_id, @max_hrs_per_hour, @working_hrs)
+    current_node.next_node = Node.new(supervised_hour, worker_id, @max_hrs_per_hour, @cumulative_working_hrs)
 
   end
 
