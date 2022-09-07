@@ -7,7 +7,7 @@ require_relative 'array_list'
 class Day
   include Helpers
 
-  attr_reader :conflicted_hours, :working_schedule, :conflicts, :array_nodes
+  attr_reader :conflicted_hours, :working_schedule, :conflicts, :array_nodes, :nodes_series
   attr_accessor :daily_turns, :supervised_hours, :range_supervised_hours
 
   def initialize(daily_turns, supervised_hours)
@@ -19,6 +19,7 @@ class Day
     @conflicted_hours = []
     @working_schedule = []
     @array_nodes = []
+    @nodes_series = nil
   end
 
   def fill_conflicted_hours
@@ -75,23 +76,45 @@ class Day
 
   def nodes_series
     total_nodes = 1
-    @conflicts.map { |_key, val| total_nodes *= val.size }
+    @nodes_series = @conflicts.map { |_key, val| total_nodes *= val.size }
   end
 
   def creating_head_nodes
     return if @range_supervised_hours.empty? || @conflicts.empty?
 
-    nodes_counter = nodes_series.sum
+    nodes_series
+    nodes_counter = @nodes_series.sum
+
     times_iterating = nodes_counter / nodes_series.first
-    @conflicts.first.last.each do |worker|
-      times_iterating.times do |_i|
+    times_iterating.times do |_i|
+      @conflicts.first.last.each do |worker|
         @array_nodes << ArrayList.new(@conflicts.first.first, worker, @max_hours_per_worker)
       end
     end
+    remove_unnecessary_sequence
   end
 
-  def create_node_sequence
+  def remove_unnecessary_sequence
+    @conflicts.shift
+    @nodes_series.shift
+  end
 
+
+  def create_node_sequence
+    # [6,12]
+    @nodes_series.each do |sequence|
+      sequence.times do |_i|
+
+        @conflicts.each do |supervised_hr, workers|
+          workers.each do |worker|
+            @array_nodes.each do |node|
+              node.add(supervised_hr, worker.id, worker.working_hours_counter )
+            end
+
+          end
+        end
+      end
+    end
 
   end
 
