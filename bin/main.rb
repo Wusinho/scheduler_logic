@@ -10,7 +10,7 @@ bot2 = DailyTurns.new(%w[0-6 9-12], 1)
 bot3 = DailyTurns.new(['8-16'], 2)
 bot4 = DailyTurns.new(['10-11'], 4)
 
-all_turns = [bot1, bot2, bot3 ]
+all_turns = [bot1, bot2, bot3, bot4]
 
 monday = Day.new(all_turns, ['0-24'])
 # p monday.daily_turns.last
@@ -19,6 +19,9 @@ monday.fill_conflicted_hours
 # monday.total_nodes_counter
 monday.creating_head_nodes
 p monday.array_nodes
+p monday.array_nodes.size
+
+
 # monday.array_nodes.each { |node| p node }
 # p monday.range_supervised_hours
 # monday.daily_turns.each { |worker| p worker.working_hours_counter}

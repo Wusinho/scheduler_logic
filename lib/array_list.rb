@@ -6,9 +6,9 @@ class Node
   attr_accessor :next_node, :working_hrs
 
   def initialize(supervised_hour, worker_id, working_hrs = 1)
+    @worker_id = worker_id
     @supervised_hour = supervised_hour
     @working_hrs = working_hrs
-    @worker_id = worker_id
     @next_node = nil
   end
 

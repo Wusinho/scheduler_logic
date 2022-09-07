@@ -82,8 +82,7 @@ class Day
     return if @range_supervised_hours.empty? || @conflicts.empty?
 
     nodes_counter = nodes_series.sum
-    times_iterating = nodes_counter / nodes_series.first.size
-
+    times_iterating = nodes_counter / nodes_series.first
     @conflicts.first.last.each do |worker|
       times_iterating.times do |_i|
         @array_nodes << ArrayList.new(@conflicts.first.first, worker, @max_hours_per_worker)
