@@ -79,6 +79,13 @@ class Day
     @nodes_series = @conflicts.map { |_key, val| total_nodes *= val.size }
   end
 
+
+
+  def remove_unnecessary_sequence
+    @conflicts.shift
+    @nodes_series.shift
+  end
+
   def creating_head_nodes
     return if @range_supervised_hours.empty? || @conflicts.empty?
 
@@ -94,23 +101,16 @@ class Day
     remove_unnecessary_sequence
   end
 
-  def remove_unnecessary_sequence
-    @conflicts.shift
-    @nodes_series.shift
-  end
-
-
   def create_node_sequence
     # [6,12]
     @nodes_series.each do |sequence|
-      sequence.times do |_i|
+        sequence.times do |_i|
+          @array_nodes.each do |node|
 
-        @conflicts.each do |supervised_hr, workers|
-          workers.each do |worker|
-            @array_nodes.each do |node|
+          @conflicts.each do |supervised_hr, workers|
+            workers.each do |worker|
               node.add(supervised_hr, worker.id, worker.working_hours_counter )
             end
-
           end
         end
       end
