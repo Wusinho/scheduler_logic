@@ -73,6 +73,7 @@ class Day
   def remove_head_processed_sequence
     @conflicts.shift
     @nodes_series.shift
+    @conflicted_hours.shift
   end
 
   def creating_head_nodes
@@ -91,13 +92,54 @@ class Day
     remove_head_processed_sequence
   end
 
-  def create_node_sequence
+  def convert_array_to_add_series
     serialized_conflicts = @conflicts.to_a
-    # [6,12]
-    @nodes_series.length.times do |index|
-      p serialized_conflicts[index].first
-      p serialized_conflicts[index].last
+    number_times_to_multiple_each_base(serialized_conflicts, @nodes_series)
+  end
+
+  def add_complete_series_per_level
+    series_per_level = convert_array_to_add_series
+    serialized_conflicts = @conflicts.to_a
+    workers_per_lvl = getting_conflicts(serialized_conflicts)
+    getting_series_to_add_in_nodes(workers_per_lvl, series_per_level)
+  end
+
+  def add_workers_nodes
+    node_sequence = add_complete_series_per_level
+
+    node_sequence.each_with_index do |series, i|
+      @array_nodes.each_with_index do |worker_node, index|
+        worker_id = series[index].worker_id
+        working_hours = series[index].working_hours_counter
+        supervised_hours = @conflicted_hours[i]
+        worker_node.add(supervised_hours, worker_id, working_hours)
+      end
     end
+
+
+
+  end
+
+  def getting_series_to_add_in_nodes(workers_per_lvl, series_per_level)
+    workers_per_lvl.map.with_index { |worker, index| worker * series_per_level[index] }
+  end
+
+  def getting_conflicts(serialized_conflicts)
+    serialized_conflicts.map(&:last)
+  end
+
+  def number_times_to_multiple_each_base(serialized_conflicts, nodes_series)
+    serialized_conflicts.map { |series|nodes_series.last / series.last.size }
+  end
+
+  def getting_max_times_iterations_per_base(no_iterations, node_series, divisor)
+    result = []
+    no_iterations.times { |index| result << node_series[index] / divisor[index] }
+    result
+  end
+
+  def create_node_sequence
+
 
 
 
