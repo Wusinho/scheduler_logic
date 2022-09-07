@@ -20,8 +20,6 @@ end
 
 # create arraylist
 class ArrayList
-  attr_reader :worker_id
-
   def initialize(supervised_hour, worker, max_hrs_per_day = 8)
     @max_hrs_per_day = max_hrs_per_day
     @enable_to_add_sequence = true
@@ -32,16 +30,14 @@ class ArrayList
     return unless @enable_to_add_sequence
 
     current_node = @head
-    add_hr_counter = 0
 
     until current_node.next_node.nil?
-      add_hr_counter += 1 if current_node.worker_id == worker_id
       current_node = current_node.next_node
+      current_node.add_working_hr if current_node.worker_id == worker_id
     end
 
     current_node.next_node = Node.new(supervised_hour, worker_id, working_hours)
-
-    add_hr_counter.zero? ? current_node.add_working_hr(1) : current_node.add_working_hr(add_hr_counter)
+    current_node.add_working_hr
 
     @enable_to_sequence = false if continue_sequence?(current_node)
 
