@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
 require_relative '../../lib/daily_turns'
 
 describe 'Daily turn' do

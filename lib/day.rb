@@ -120,23 +120,7 @@ class Day
 
   end
 
-  def getting_series_to_add_in_nodes(workers_per_lvl, series_per_level)
-    workers_per_lvl.map.with_index { |worker, index| worker * series_per_level[index] }
-  end
 
-  def getting_conflicts(serialized_conflicts)
-    serialized_conflicts.map(&:last)
-  end
-
-  def number_times_to_multiple_each_base(serialized_conflicts, nodes_series)
-    serialized_conflicts.map { |series|nodes_series.last / series.last.size }
-  end
-
-  def getting_max_times_iterations_per_base(no_iterations, node_series, divisor)
-    result = []
-    no_iterations.times { |index| result << node_series[index] / divisor[index] }
-    result
-  end
 
   def node_exists?(worker_id)
     @array_nodes.any? { |node| node.worker_id == worker_id }
