@@ -5,15 +5,15 @@ class Node
   attr_reader :supervised_hour, :worker_id
   attr_accessor :next_node, :working_hrs
 
-  def initialize(supervised_hour, worker_id, working_hrs = 1)
-    @worker_id = worker_id
+  def initialize(supervised_hour, worker_id, working_hrs_counter = 1)
     @supervised_hour = supervised_hour
-    @working_hrs = working_hrs
+    @worker_id = worker_id
+    @working_hrs_counter = working_hrs_counter
     @next_node = nil
   end
 
   def add_working_hr
-    @working_hrs += 1
+    @working_hrs_counter += 1
   end
 
 end
@@ -44,7 +44,7 @@ class ArrayList
   end
 
   def continue_sequence?(current_node)
-    current_node.add_working_hr > @max_hrs_per_day
+    current_node.add_working_hr == @max_hrs_per_day
   end
 
 
