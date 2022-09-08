@@ -1,7 +1,29 @@
 # frozen_string_literal: true
 
 require_relative '../../lib/array_list'
+require_relative '../../lib/daily_turns'
 
 describe 'Array List' do
 
+  before(:all) do
+    @worker_1 = DailyTurns.new(['0-24'], 1)
+    @worker_2 = DailyTurns.new(['10-14'], 2)
+    @worker_3 = DailyTurns.new(['5-10'], 3)
+    6.times do |_i|
+      @worker_1.add_one_working_hour
+      @worker_2.add_one_working_hour
+      @worker_3.add_one_working_hour
+    end
+  end
+
+
+  it 'should create a daily range of hrs for a worker' do
+    supervised_hr = [9, 10]
+    arr = ArrayList.new(supervised_hr, @worker_1)
+    arr.add(supervised_hr, @worker_2.worker_id, @worker_2.working_hours_counter)
+    arr.add(supervised_hr, @worker_3.worker_id, @worker_3.working_hours_counter)
+
+    expect(arr).to eql 1
+
+  end
 end
