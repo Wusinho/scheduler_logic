@@ -14,14 +14,24 @@ describe 'Array List' do
       @worker_2.add_one_working_hour
       @worker_3.add_one_working_hour
     end
+
   end
 
 
-  it 'should create a daily range of hrs for a worker' do
+  it 'should create a continues node' do
     supervised_hr = [9, 10]
     arr = ArrayList.new(supervised_hr, @worker_1)
-    arr.add(supervised_hr, @worker_2.worker_id, @worker_2.working_hours_counter)
-    arr.add(supervised_hr, @worker_3.worker_id, @worker_3.working_hours_counter)
+    arr.add(@worker_2.worker_id, @worker_2.working_hours_counter)
+    arr.add(@worker_2.worker_id, @worker_2.working_hours_counter)
+    arr.add(@worker_2.worker_id, @worker_2.working_hours_counter)
+    # arr.add(@worker_1.worker_id, @worker_2.working_hours_counter)
+    # arr.add(@worker_2.worker_id, @worker_2.working_hours_counter)
+
+    # arr.add(@worker_3.worker_id, @worker_3.working_hours_counter)
+
+    # arr.add(supervised_hr, @worker_1.worker_id, @worker_1.working_hours_counter)
+
+
 
     expect(arr).to eql 1
 
