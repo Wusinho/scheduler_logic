@@ -24,7 +24,7 @@ describe 'Array List' do
     arr.add(@worker_2.worker_id, @worker_2.working_hours_counter)
     arr.add(@worker_2.worker_id, @worker_2.working_hours_counter)
     arr.add(@worker_2.worker_id, @worker_2.working_hours_counter)
-    # arr.add(@worker_1.worker_id, @worker_2.working_hours_counter)
+    arr.add(@worker_1.worker_id, @worker_2.working_hours_counter)
     # arr.add(@worker_2.worker_id, @worker_2.working_hours_counter)
 
     # arr.add(@worker_3.worker_id, @worker_3.working_hours_counter)
