@@ -63,7 +63,10 @@ class Day
 
         add_params_counter(eval_params, worker) if worker.worker_range.include?(supervised_hr)
       end
-      updating_workers_hours(eval_params[:unique_worker], supervised_hr) if eval_params[:times_included] == 1
+      if eval_params[:times_included] == 1
+        @working_schedule << { hour_rage: supervised_hr, worker: eval_params[:unique_worker] }
+        updating_workers_hours(eval_params[:unique_worker], supervised_hr)
+      end
     end
   end
 
@@ -121,8 +124,8 @@ class Day
     end
   end
 
-  def updating_workers_hours(worker, pair)
-    @range_supervised_hours -= [pair]
+  def updating_workers_hours(worker, hr_range)
+    @range_supervised_hours -= [hr_range]
     worker.add_one_working_hour
     worker.able_to_work = false if worker.working_hours_counter == @max_hours_per_worker
   end

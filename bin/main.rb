@@ -12,10 +12,11 @@ bot3 = DailyTurns.new(['8-16'], 2)
 all_turns = [bot1, bot2, bot3]
 
 monday = Day.new(all_turns, ['0-24'])
-# p monday.daily_turns.last
 monday.start
+monday.working_schedule.each { |hour| p hour }
+p '*'*100
 monday.array_nodes.each { |node| p node }
-
+p monday.conflicted_hours
 # monday.create_unique_nodes
 # p monday.array_nodes.sizes
 #
