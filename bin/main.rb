@@ -5,33 +5,33 @@ require_relative '../lib/day'
 require_relative '../lib/analize_combinations'
 require_relative '../lib/print_table'
 
-bot1 = DailyTurns.new(['0-24'], 3)
-# bot2 = DailyTurns.new(%w[0-6 9-12], 1)
-bot3 = DailyTurns.new(['8-16'], 2)
-
-all_turns = [bot1, bot3]
-
-monday = Day.new(all_turns, ['0-24'])
-monday.start
-monday.working_schedule.each { |hour| p hour }
-p '*'*100
-monday.array_nodes.each { |node| p node }
-p monday.conflicted_hours
-p monday.range_supervised_hours
-# monday.create_unique_nodes
-# p monday.array_nodes.sizes
+# bot1 = DailyTurns.new(['0-24'], 3)
+# # bot2 = DailyTurns.new(%w[0-6 9-12], 1)
+# bot3 = DailyTurns.new(['8-16'], 2)
 #
-# p monday.array_nodes.size
-# p monday.array_nodes.size
-
-
-
-
-
+# all_turns = [bot1, bot3]
+#
+# monday = Day.new(all_turns, ['0-24'])
+# monday.start
+# monday.working_schedule.each { |hour| p hour }
+# p '*'*100
 # monday.array_nodes.each { |node| p node }
+# p monday.conflicted_hours
 # p monday.range_supervised_hours
-# monday.daily_turns.each { |worker| p worker.working_hours_counter}
-# monday.resolve_conflicted_hours
-# p monday.daily_turns
-# table = PrintTable.new(monday.supervised_hours, monday.working_schedule)
-# table.print_schedule
+# # monday.create_unique_nodes
+# # p monday.array_nodes.sizes
+# #
+# # p monday.array_nodes.size
+# # p monday.array_nodes.size
+#
+#
+#
+#
+#
+# # monday.array_nodes.each { |node| p node }
+# # p monday.range_supervised_hours
+# # monday.daily_turns.each { |worker| p worker.working_hours_counter}
+# # monday.resolve_conflicted_hours
+# # p monday.daily_turns
+# # table = PrintTable.new(monday.supervised_hours, monday.working_schedule)
+# # table.print_schedule
