@@ -16,14 +16,14 @@ describe 'Main build' do
     all_turns = [bot1, bot2, bot3]
     monday = Day.new(all_turns, ['0-24'])
     monday.start
-    expect(monday.hours_fullfiled).to be_truthy
+    expect(monday.supervised_hours_fullfiled).to be_truthy
   end
 
   it 'When given a respectable hrs ranges between workers the app arranges them' do
     all_turns = [bot4, bot5, bot6]
     monday = Day.new(all_turns, ['0-24'])
     monday.start
-    expect(monday.hours_fullfiled).to be_truthy
+    expect(monday.supervised_hours_fullfiled).to be_truthy
   end
 
 end

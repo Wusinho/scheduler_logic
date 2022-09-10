@@ -7,7 +7,7 @@ require_relative 'array_list'
 class Day
   include Helpers
 
-  attr_reader :conflicted_hours, :working_schedule, :conflicts, :array_nodes, :nodes_series, :hours_fullfiled
+  attr_reader :conflicted_hours, :working_schedule, :conflicts, :array_nodes, :nodes_series, :supervised_hours_fullfiled
   attr_accessor :daily_turns, :supervised_hours, :range_supervised_hours
 
   def initialize(daily_turns, supervised_hours)
@@ -20,11 +20,11 @@ class Day
     @working_schedule = []
     @array_nodes = []
     @nodes_series = []
-    @hours_fullfiled = false
+    @supervised_hours_fullfiled = false
   end
 
-  def hours_fullfiled?
-    @hours_fullfiled = true if @range_supervised_hours.empty?
+  def supervised_hours_fullfiled?
+    @supervised_hours_fullfiled = true if @range_supervised_hours.empty?
   end
 
   def start
@@ -32,7 +32,7 @@ class Day
     fill_conflicted_hours
 
     create_alternatives_on_conflicts
-    hours_fullfiled?
+    supervised_hours_fullfiled?
   end
 
   def create_alternatives_on_conflicts
