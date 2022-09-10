@@ -18,24 +18,25 @@ describe 'Array List' do
   end
 
 
-  it 'should create a continues node' do
+  it 'should create node with the value in order of the workers ids' do
     supervised_hr = [9, 10]
-    arr = ArrayList.new(supervised_hr, @worker_1)
-    arr.add(@worker_2.worker_id, @worker_2.working_hours_counter)
-    arr.add(@worker_2.worker_id, @worker_2.working_hours_counter)
-    # arr.add(@worker_2.worker_id, @worker_2.working_hours_counter)
-    # arr.add(@worker_1.worker_id, @worker_2.working_hours_counter)
-    # arr.add(@worker_2.worker_id, @worker_2.working_hours_counter)
+    node_list = ArrayList.new(supervised_hr, @worker_1)
+    node_list.add(@worker_2.worker_id, @worker_2.working_hours_counter)
+    node_list.add(@worker_3.worker_id, @worker_3.working_hours_counter)
+    expect(node_list.print).to eql [1, 2, 3]
+  end
 
-    arr.add(@worker_3.worker_id, @worker_3.working_hours_counter)
-
-    arr.add(@worker_3.worker_id, @worker_3.working_hours_counter)
-    # arr.add(supervised_hr, @worker_1.worker_id, @worker_1.working_hours_counter)
-
-    p arr
-
-
-    expect(arr).to eql 1
+  it 'when the max hrs per worker is exceed it will stop taking more workers and will be disabled ' do
+    supervised_hr = [10, 11]
+    node_list = ArrayList.new(supervised_hr, @worker_1)
+    node_list.add(@worker_2.worker_id, @worker_2.working_hours_counter)
+    node_list.add(@worker_2.worker_id, @worker_2.working_hours_counter)
+    node_list.add(@worker_2.worker_id, @worker_2.working_hours_counter)
+    node_list.add(@worker_2.worker_id, @worker_2.working_hours_counter)
+    expect(node_list.enable_to_sequence).to be_falsey
+    expect(node_list.print).to eql [1, 2, 2]
 
   end
+
+
 end

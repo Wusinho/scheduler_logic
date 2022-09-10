@@ -2,7 +2,7 @@
 
 # creating a simple node
 class Node
-  attr_reader :supervised_hour, :worker_id
+  attr_reader :worker_id
   attr_accessor :next_node, :working_hrs_counter
 
   def initialize(worker_id, working_hrs_counter, first_time_counter = nil)
@@ -19,11 +19,13 @@ end
 
 # create arraylist
 class ArrayList
+  attr_reader :enable_to_sequence
+
   def initialize(supervised_hour, worker, max_hrs_per_day = 8)
     @supervised_hour = supervised_hour
     @max_hrs_per_day = max_hrs_per_day
     @enable_to_sequence = true
-    @head = Node.new( worker.worker_id, worker.working_hours_counter, true)
+    @head = Node.new(worker.worker_id, worker.working_hours_counter, true)
   end
 
   def add(worker_id, working_hours)
@@ -47,11 +49,6 @@ class ArrayList
     true
   end
 
-  def continue_sequence?(current_node, worker_id)
-    current_node.add_working_hr == @max_hrs_per_day #&& current_node.worker_id == worker_id
-  end
-
-
   # adds a counter of hrs everytime a worker can fill th shift
   # And return the node of the user to check if it can continue to work
   def print_arraylist(worker_id)
@@ -69,17 +66,18 @@ class ArrayList
     end
     reader['counter'] = hr_token_counter
     reader
-    # puts @add_working_hrs
   end
 
-  def find_with_index(index)
-    current_node = @head
-    return 0 if current_node.supervised_hour.zero?
+  # return the workers ids in order
+  def print
+    node = @head
+    workers_ids = []
+    workers_ids << node.worker_id
 
-    while (current_node = current_node.next_node)
-      return current_node.supervised_hour if current_node.max_working_hours == index
-      # p current_node.max_working_hours
+    while (node = node.next_node)
+      workers_ids << node.worker_id
     end
+    workers_ids
   end
 
 end
