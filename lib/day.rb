@@ -46,12 +46,12 @@ class Day
     end
   end
 
+  # loop that finishes when all the unconflicted hrs between workers are reached
   def fill_unconflicted_hours
-    @daily_turns.length.times do |_i|
+    loop do
       eval_range_supervised_hours = @range_supervised_hours
       check_unconflicted_hours
       break if eval_range_supervised_hours == @range_supervised_hours
-
     end
   end
 

@@ -6,10 +6,10 @@ require_relative '../lib/analize_combinations'
 require_relative '../lib/print_table'
 
 bot1 = DailyTurns.new(['0-24'], 3)
-bot2 = DailyTurns.new(%w[0-6 9-12], 1)
+# bot2 = DailyTurns.new(%w[0-6 9-12], 1)
 bot3 = DailyTurns.new(['8-16'], 2)
 
-all_turns = [bot1, bot2, bot3]
+all_turns = [bot1, bot3]
 
 monday = Day.new(all_turns, ['0-24'])
 monday.start
@@ -17,6 +17,7 @@ monday.working_schedule.each { |hour| p hour }
 p '*'*100
 monday.array_nodes.each { |node| p node }
 p monday.conflicted_hours
+p monday.range_supervised_hours
 # monday.create_unique_nodes
 # p monday.array_nodes.sizes
 #
