@@ -27,49 +27,24 @@ class ArrayList
   end
 
   def add(worker_id, working_hours)
-    return if !@enable_to_add_sequence
+    return unless @enable_to_add_sequence
 
     current_node = @head
-    # @enable_to_add_sequence = false and return continue_sequence?(current_node, worker_id)
+    current_node = current_node.next_node until current_node.next_node.nil?
 
-    until current_node.next_node.nil?
-
-      current_node = current_node.next_node
-
-      # current_node.add_working_hr if current_node.worker_id == worker_id
-    end
     reader = print_arraylist(worker_id)
-    # primera ve z q se agrega un nuevo user la nodo
-    p reader
-    # hrs = 1 if hrs <= 1
-    if reader['counter'].zero?
-      p 'hrs zero'
-      current_node.next_node = Node.new(worker_id, working_hours)
-      current_node = current_node.next_node
-      current_node.add_working_hr(1)
-      p current_node
-    else
-      p 'otherr'
-      if reader['node'].working_hrs_counter == 8
-        @enable_to_add_sequence = false
-        return
-      end
-      current_node.next_node = Node.new(worker_id, working_hours)
-      current_node.next_node.add_working_hr(reader['counter'] + 1)
-      p current_node.next_node
+    disable_list and return if reader['user_node']&.working_hrs_counter == 8
 
-    end
-    puts '*'*100
-    # print_arraylist(worker_id)
-    p @head
-    puts '*'*100
+    current_node.next_node = Node.new(worker_id, working_hours)
+    return current_node.next_node.add_working_hr(1) if reader['counter'].zero?
 
-    puts 'end of add'
+    current_node.next_node.add_working_hr(reader['counter'] + 1)
+
   end
 
-  def check_nodes
-    current_node = @head
-
+  def disable_list
+    @enable_to_add_sequence = false
+    true
   end
 
   def continue_sequence?(current_node, worker_id)
@@ -77,21 +52,20 @@ class ArrayList
   end
 
 
+  # adds a counter of hrs everytime a worker can fill th shift
+  # And return the node of the user to check if it can continue to work
   def print_arraylist(worker_id)
     reader = {}
     current_node = @head
     hr_token_counter = 0
-    # add_working_hr
-    hr_token_counter += 1 if current_node.worker_id == worker_id
 
-    puts "#{current_node.worker_id} with counter = #{current_node.working_hrs_counter}"
+    hr_token_counter += 1 if current_node.worker_id == worker_id
 
     while (current_node = current_node.next_node)
       if current_node.worker_id == worker_id
         hr_token_counter += 1
-        reader['node'] = current_node
+        reader['user_node'] = current_node
       end
-      puts "#{current_node.worker_id} with counter = #{current_node.working_hrs_counter}"
     end
     reader['counter'] = hr_token_counter
     reader
