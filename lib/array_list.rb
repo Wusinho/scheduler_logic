@@ -19,12 +19,13 @@ end
 
 # create arraylist
 class ArrayList
-  attr_reader :enable_to_sequence
+  attr_reader :enable_to_sequence, :node_size
 
   def initialize(supervised_hour, worker, max_hrs_per_day = 8)
     @supervised_hour = supervised_hour
     @max_hrs_per_day = max_hrs_per_day
     @enable_to_sequence = true
+    @node_size = 1
     @head = Node.new(worker.worker_id, worker.working_hours_counter, true)
   end
 
@@ -38,15 +39,21 @@ class ArrayList
     disable_list and return if reader['user_node']&.working_hrs_counter == 8
 
     current_node.next_node = Node.new(worker_id, working_hours)
-    return current_node.next_node.add_working_hr(1) if reader['counter'].zero?
-
-    current_node.next_node.add_working_hr(reader['counter'] + 1)
-
+    if reader['counter'].zero?
+      current_node.next_node.add_working_hr(1)
+    else
+      current_node.next_node.add_working_hr(reader['counter'] + 1)
+    end
+    increase_node_size
   end
 
   def disable_list
     @enable_to_sequence = false
     true
+  end
+
+  def increase_node_size
+    @node_size += 1
   end
 
   # adds a counter of hrs everytime a worker can fill th shift
@@ -69,7 +76,7 @@ class ArrayList
   end
 
   # return the workers ids in order
-  def print
+  def print_worker_list
     node = @head
     workers_ids = []
     workers_ids << node.worker_id

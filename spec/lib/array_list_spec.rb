@@ -26,6 +26,17 @@ describe 'Array List' do
     expect(node_list.print).to eql [1, 2, 3]
   end
 
+  it 'as long as the working hrs are not exceeding the node will continue adding more available workers' do
+    supervised_hr = [10, 11]
+    node_list = ArrayList.new(supervised_hr, @worker_1)
+    node_list.add(@worker_2.worker_id, @worker_2.working_hours_counter)
+    node_list.add(@worker_2.worker_id, @worker_2.working_hours_counter)
+    node_list.add(@worker_3.worker_id, @worker_3.working_hours_counter)
+    node_list.add(@worker_3.worker_id, @worker_3.working_hours_counter)
+    node_list.add(@worker_1.worker_id, @worker_1.working_hours_counter)
+    expect(node_list.node_size).to eql 6S
+  end
+
   it 'when the max hrs per worker is exceed it will stop taking more workers and will be disabled ' do
     supervised_hr = [10, 11]
     node_list = ArrayList.new(supervised_hr, @worker_1)
@@ -34,9 +45,12 @@ describe 'Array List' do
     node_list.add(@worker_2.worker_id, @worker_2.working_hours_counter)
     node_list.add(@worker_2.worker_id, @worker_2.working_hours_counter)
     expect(node_list.enable_to_sequence).to be_falsey
-    expect(node_list.print).to eql [1, 2, 2]
+    expect(node_list.print_worker_list).to eql [1, 2, 2]
+    expect(node_list.node_size).to eql 3
 
   end
+
+
 
 
 end
