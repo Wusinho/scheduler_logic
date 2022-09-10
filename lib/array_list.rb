@@ -22,12 +22,12 @@ class ArrayList
   def initialize(supervised_hour, worker, max_hrs_per_day = 8)
     @supervised_hour = supervised_hour
     @max_hrs_per_day = max_hrs_per_day
-    @enable_to_add_sequence = true
+    @enable_to_sequence = true
     @head = Node.new( worker.worker_id, worker.working_hours_counter, true)
   end
 
   def add(worker_id, working_hours)
-    return unless @enable_to_add_sequence
+    return unless @enable_to_sequence
 
     current_node = @head
     current_node = current_node.next_node until current_node.next_node.nil?
@@ -43,7 +43,7 @@ class ArrayList
   end
 
   def disable_list
-    @enable_to_add_sequence = false
+    @enable_to_sequence = false
     true
   end
 

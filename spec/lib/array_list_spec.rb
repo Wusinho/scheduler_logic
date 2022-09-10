@@ -23,15 +23,16 @@ describe 'Array List' do
     arr = ArrayList.new(supervised_hr, @worker_1)
     arr.add(@worker_2.worker_id, @worker_2.working_hours_counter)
     arr.add(@worker_2.worker_id, @worker_2.working_hours_counter)
-    arr.add(@worker_2.worker_id, @worker_2.working_hours_counter)
-    p arr
+    # arr.add(@worker_2.worker_id, @worker_2.working_hours_counter)
     # arr.add(@worker_1.worker_id, @worker_2.working_hours_counter)
     # arr.add(@worker_2.worker_id, @worker_2.working_hours_counter)
 
-    # arr.add(@worker_3.worker_id, @worker_3.working_hours_counter)
+    arr.add(@worker_3.worker_id, @worker_3.working_hours_counter)
 
+    arr.add(@worker_3.worker_id, @worker_3.working_hours_counter)
     # arr.add(supervised_hr, @worker_1.worker_id, @worker_1.working_hours_counter)
 
+    p arr
 
 
     expect(arr).to eql 1
