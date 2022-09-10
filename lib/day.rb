@@ -65,7 +65,7 @@ class Day
     eval_params[:unique_worker] = worker
   end
 
-  def nodes_series
+  def create_nodes_series
     total_nodes = 1
     @nodes_series = @conflicts.map { |_key, val| total_nodes *= val.size }
   end
@@ -79,7 +79,7 @@ class Day
   def creating_head_nodes
     return if @range_supervised_hours.empty? || @conflicts.empty?
 
-    nodes_series
+    create_nodes_series
     nodes_counter = @nodes_series.last
 
     times_iterating = nodes_counter / @nodes_series.first
@@ -115,19 +115,6 @@ class Day
         worker_node.add(supervised_hours, worker_id, working_hours)
       end
     end
-
-
-
-  end
-
-
-
-  def node_exists?(worker_id)
-    @array_nodes.any? { |node| node.worker_id == worker_id }
-  end
-
-  def find_correct_node(worker_id)
-    @array_nodes.select { |node| node.worker_id == worker_id }
   end
 
   def updating_workers_hours(worker, pair)
