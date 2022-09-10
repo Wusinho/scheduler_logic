@@ -21,29 +21,29 @@ describe 'Array List' do
   it 'should create node with the value in order of the workers ids' do
     supervised_hr = [9, 10]
     node_list = ArrayList.new(supervised_hr, @worker_1)
-    node_list.add(@worker_2.worker_id, @worker_2.working_hours_counter)
-    node_list.add(@worker_3.worker_id, @worker_3.working_hours_counter)
-    expect(node_list.print).to eql [1, 2, 3]
+    node_list.add(supervised_hr, @worker_2.worker_id, @worker_2.working_hours_counter)
+    node_list.add(supervised_hr, @worker_3.worker_id, @worker_3.working_hours_counter)
+    expect(node_list.print_worker_list).to eql [1, 2, 3]
   end
 
   it 'as long as the working hrs are not exceeding the node will continue adding more available workers' do
     supervised_hr = [10, 11]
     node_list = ArrayList.new(supervised_hr, @worker_1)
-    node_list.add(@worker_2.worker_id, @worker_2.working_hours_counter)
-    node_list.add(@worker_2.worker_id, @worker_2.working_hours_counter)
-    node_list.add(@worker_3.worker_id, @worker_3.working_hours_counter)
-    node_list.add(@worker_3.worker_id, @worker_3.working_hours_counter)
-    node_list.add(@worker_1.worker_id, @worker_1.working_hours_counter)
+    node_list.add(supervised_hr, @worker_2.worker_id, @worker_2.working_hours_counter)
+    node_list.add(supervised_hr, @worker_2.worker_id, @worker_2.working_hours_counter)
+    node_list.add(supervised_hr, @worker_3.worker_id, @worker_3.working_hours_counter)
+    node_list.add(supervised_hr, @worker_3.worker_id, @worker_3.working_hours_counter)
+    node_list.add(supervised_hr, @worker_1.worker_id, @worker_1.working_hours_counter)
     expect(node_list.node_size).to eql 6
   end
 
   it 'when the max hrs per worker is exceed it will stop taking more workers and will be disabled ' do
     supervised_hr = [10, 11]
     node_list = ArrayList.new(supervised_hr, @worker_1)
-    node_list.add(@worker_2.worker_id, @worker_2.working_hours_counter)
-    node_list.add(@worker_2.worker_id, @worker_2.working_hours_counter)
-    node_list.add(@worker_2.worker_id, @worker_2.working_hours_counter)
-    node_list.add(@worker_2.worker_id, @worker_2.working_hours_counter)
+    node_list.add(supervised_hr, @worker_2.worker_id, @worker_2.working_hours_counter)
+    node_list.add(supervised_hr, @worker_2.worker_id, @worker_2.working_hours_counter)
+    node_list.add(supervised_hr, @worker_2.worker_id, @worker_2.working_hours_counter)
+    node_list.add(supervised_hr, @worker_2.worker_id, @worker_2.working_hours_counter)
     expect(node_list.enable_to_sequence).to be_falsey
     expect(node_list.print_worker_list).to eql [1, 2, 2]
     expect(node_list.node_size).to eql 3
