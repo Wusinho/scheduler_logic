@@ -34,7 +34,7 @@ describe 'Array List' do
     node_list.add(@worker_3.worker_id, @worker_3.working_hours_counter)
     node_list.add(@worker_3.worker_id, @worker_3.working_hours_counter)
     node_list.add(@worker_1.worker_id, @worker_1.working_hours_counter)
-    expect(node_list.node_size).to eql 6S
+    expect(node_list.node_size).to eql 6
   end
 
   it 'when the max hrs per worker is exceed it will stop taking more workers and will be disabled ' do
