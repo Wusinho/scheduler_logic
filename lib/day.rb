@@ -22,6 +22,20 @@ class Day
     @nodes_series = []
   end
 
+  def start
+    fill_unconflicted_hours
+    fill_conflicted_hours
+
+    create_alternatives_on_conflicts
+  end
+
+  def create_alternatives_on_conflicts
+    return if @range_supervised_hours.empty? || @conflicts.empty?
+
+    creating_head_nodes
+    create_node_sequence
+  end
+
   def fill_conflicted_hours
     return if @range_supervised_hours.empty?
 
@@ -93,6 +107,8 @@ class Day
   end
 
   def create_node_sequence
+    return if @range_supervised_hours.empty? || @conflicts.empty?
+
     node_sequence = add_complete_series_per_level
 
     node_sequence.each_with_index do |series, i|
