@@ -38,21 +38,24 @@ class ArrayList
 
       # current_node.add_working_hr if current_node.worker_id == worker_id
     end
-    hrs = print_arraylist(worker_id)
+    reader = print_arraylist(worker_id)
     # primera ve z q se agrega un nuevo user la nodo
-    p "no_ofhrs = #{hrs}"
+    p reader
     # hrs = 1 if hrs <= 1
-    if hrs.zero?
+    if reader['counter'].zero?
       p 'hrs zero'
-    current_node.next_node = Node.new(worker_id, working_hours)
+      current_node.next_node = Node.new(worker_id, working_hours)
       current_node = current_node.next_node
       current_node.add_working_hr(1)
       p current_node
     else
       p 'otherr'
-
+      if reader['node'].working_hrs_counter == 8
+        @enable_to_add_sequence = false
+        return
+      end
       current_node.next_node = Node.new(worker_id, working_hours)
-      current_node.next_node.add_working_hr(hrs + 1)
+      current_node.next_node.add_working_hr(reader['counter'] + 1)
       p current_node.next_node
 
     end
@@ -75,6 +78,7 @@ class ArrayList
 
 
   def print_arraylist(worker_id)
+    reader = {}
     current_node = @head
     hr_token_counter = 0
     # add_working_hr
@@ -83,10 +87,14 @@ class ArrayList
     puts "#{current_node.worker_id} with counter = #{current_node.working_hrs_counter}"
 
     while (current_node = current_node.next_node)
-      hr_token_counter += 1 if current_node.worker_id == worker_id
+      if current_node.worker_id == worker_id
+        hr_token_counter += 1
+        reader['node'] = current_node
+      end
       puts "#{current_node.worker_id} with counter = #{current_node.working_hrs_counter}"
     end
-    hr_token_counter
+    reader['counter'] = hr_token_counter
+    reader
     # puts @add_working_hrs
   end
 
