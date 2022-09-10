@@ -2,10 +2,11 @@
 
 # creating a simple node
 class Node
-  attr_reader :worker_id
+  attr_reader :worker_id, :supervised_hour
   attr_accessor :next_node, :working_hrs_counter
 
-  def initialize(worker_id, working_hrs_counter, first_time_counter = nil)
+  def initialize(supervised_hour, worker_id, working_hrs_counter, first_time_counter = nil)
+    @supervised_hour = supervised_hour
     @worker_id = worker_id
     @working_hrs_counter = first_time_counter ? working_hrs_counter + 1 : working_hrs_counter
     @next_node = nil
@@ -22,14 +23,13 @@ class ArrayList
   attr_reader :enable_to_sequence, :node_size
 
   def initialize(supervised_hour, worker, max_hrs_per_day = 8)
-    @supervised_hour = supervised_hour
     @max_hrs_per_day = max_hrs_per_day
     @enable_to_sequence = true
     @node_size = 1
-    @head = Node.new(worker.worker_id, worker.working_hours_counter, true)
+    @head = Node.new(supervised_hour, worker.worker_id, worker.working_hours_counter, true)
   end
 
-  def add(worker_id, working_hours)
+  def add(supervised_hour, worker_id, working_hours)
     return unless @enable_to_sequence
 
     current_node = @head
@@ -38,7 +38,7 @@ class ArrayList
     reader = print_arraylist(worker_id)
     disable_list and return if reader['user_node']&.working_hrs_counter == 8
 
-    current_node.next_node = Node.new(worker_id, working_hours)
+    current_node.next_node = Node.new(supervised_hour,worker_id, working_hours)
     if reader['counter'].zero?
       current_node.next_node.add_working_hr(1)
     else
