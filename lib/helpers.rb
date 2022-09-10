@@ -49,4 +49,14 @@ module Helpers
     result
   end
 
+  def add_params_counter(eval_params, worker)
+    eval_params[:times_included] += 1
+    eval_params[:unique_worker] = worker
+  end
+
+  def add_conflicts(conflicts, worker, supervised_range, conflicted_hours)
+    conflicts[supervised_range] = [] if conflicts[supervised_range].nil?
+    conflicts[supervised_range] << worker
+    conflicted_hours << supervised_range unless conflicted_hours.include?(supervised_range)
+  end
 end

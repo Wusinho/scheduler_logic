@@ -27,16 +27,9 @@ class Day
 
     workers_conflicted_hrs.each do |worker|
       @range_supervised_hours.each do |supervised_hour|
-        add_conflicts(@conflicts, worker, supervised_hour) if worker.worker_range.include?(supervised_hour)
+        add_conflicts(@conflicts, worker, supervised_hour, @conflicted_hours) if worker.worker_range.include?(supervised_hour)
       end
     end
-
-  end
-
-  def add_conflicts(conflicts, worker, supervised_range)
-    conflicts[supervised_range] = [] if conflicts[supervised_range].nil?
-    conflicts[supervised_range] << worker
-    @conflicted_hours << supervised_range unless @conflicted_hours.include?(supervised_range)
   end
 
   def fill_unconflicted_hours
@@ -58,11 +51,6 @@ class Day
       end
       updating_workers_hours(eval_params[:unique_worker], supervised_hr) if eval_params[:times_included] == 1
     end
-  end
-
-  def add_params_counter(eval_params, worker)
-    eval_params[:times_included] += 1
-    eval_params[:unique_worker] = worker
   end
 
   def create_nodes_series
