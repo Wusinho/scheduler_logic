@@ -9,11 +9,11 @@ describe 'Array List' do
     @worker_1 = DailyTurns.new(['0-24'], 1)
     @worker_2 = DailyTurns.new(['10-14'], 2)
     @worker_3 = DailyTurns.new(['5-10'], 3)
-    6.times do |_i|
+    6.times{
       @worker_1.add_one_working_hour
       @worker_2.add_one_working_hour
       @worker_3.add_one_working_hour
-    end
+    }
 
   end
 

@@ -15,13 +15,13 @@ describe 'Daily turn' do
   end
 
   it 'if the worker passes the 8hrs per day it cannot be elegible to work' do
-    8.times { |_i| bot1.add_one_working_hour }
+    8.times { bot1.add_one_working_hour }
     expect(bot1.working_hours_counter).to eql 8
     expect(bot1.able_to_work).to be_falsey
   end
 
   it 'if tried, the worker cannot receive more thant the limit of 8hrs of work per day' do
-    10.times { |_i| bot1.add_one_working_hour }
+    10.times { bot1.add_one_working_hour }
     expect(bot1.working_hours_counter).to eql 8
     expect(bot1.able_to_work).to be_falsey
   end

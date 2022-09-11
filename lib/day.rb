@@ -96,9 +96,7 @@ class Day
     times_iterating = nodes_counter / @nodes_series.first
 
     @conflicts.first.last.each do |worker|
-      times_iterating.times do |_i|
-        @array_nodes << ArrayList.new(@conflicts.first.first, worker, @max_hours_per_worker)
-      end
+      times_iterating.times { @array_nodes << ArrayList.new(@conflicts.first.first, worker, @max_hours_per_worker) }
     end
     remove_head_processed_sequence
   end

@@ -11,6 +11,10 @@ describe 'Main build' do
   let(:bot5) { DailyTurns.new(%w[0-4 16-24], 1) }
   let(:bot6) { DailyTurns.new(['0-24'], 2) }
 
+  let(:bot7) { DailyTurns.new(%w[0-4], 3) }
+  let(:bot8) { DailyTurns.new(%w[0-4 16-24], 1) }
+  let(:bot9) { DailyTurns.new(['0-24'], 2) }
+
 
   it 'When given a respectable hrs ranges between workers the app arranges them' do
     all_turns = [bot1, bot2, bot3]
