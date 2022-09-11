@@ -133,7 +133,7 @@ class Day
   def updating_workers_hours(worker, hr_range)
     @range_supervised_hours -= [hr_range]
     worker.add_one_working_hour
-    worker.able_to_work = false if worker.working_hours_counter == @max_hours_per_worker
+    # worker.able_to_work = false if worker.working_hours_counter == @max_hours_per_worker
   end
 
   def workers_conflicted_hrs
