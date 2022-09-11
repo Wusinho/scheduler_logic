@@ -18,12 +18,14 @@ class DailyTurns
   end
 
   def add_one_working_hour
-    @working_hours_counter += 1 if @able_to_work
-    worker_able_to_work?
+    return unless @able_to_work
+
+    @working_hours_counter += 1
+    @able_to_work = add_more_work_hrs?
   end
 
-  def worker_able_to_work?
-    @able_to_work = false if @working_hours_counter >= 8
+  def add_more_work_hrs?
+    @working_hours_counter < 8
   end
 
 end
