@@ -6,7 +6,7 @@ require_relative 'helpers'
 class DailyTurns
   include Helpers
 
-  attr_reader :available_hours, :worker_id, :worker_range, :able_to_work
+  attr_reader :available_hours, :worker_id, :worker_range, :able_to_work, :working_hours_counter
 
   # attr_accessor :able_to_work, :working_hours_counter
 
