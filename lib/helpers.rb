@@ -49,7 +49,7 @@ module Helpers
     result
   end
 
-  def add_params_counter(eval_params, worker)
+  def update_eval_params(eval_params, worker)
     eval_params[:times_included] += 1
     eval_params[:unique_worker] = worker
   end

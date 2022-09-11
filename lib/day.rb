@@ -47,7 +47,9 @@ class Day
 
     workers_conflicted_hrs.each do |worker|
       @range_supervised_hours.each do |supervised_hour|
-        add_conflicts(@conflicts, worker, supervised_hour, @conflicted_hours) if worker.worker_range.include?(supervised_hour)
+        if worker.worker_range.include?(supervised_hour)
+          add_conflicts(@conflicts, worker, supervised_hour, @conflicted_hours)
+        end
       end
     end
   end
@@ -67,13 +69,21 @@ class Day
       @daily_turns.each do |worker|
         next if !worker.able_to_work || eval_params[:times_included] >= 2
 
-        add_params_counter(eval_params, worker) if worker.worker_range.include?(supervised_hr)
+        update_eval_params(eval_params, worker) if worker.worker_range.include?(supervised_hr)
       end
-      if eval_params[:times_included] == 1
-        @working_schedule << { hour_rage: supervised_hr, worker: eval_params[:unique_worker] }
-        updating_workers_hours(eval_params[:unique_worker], supervised_hr)
-      end
+
+      add_unconflicted_worker_to_working_schedule(eval_params, supervised_hr) if unconflicted_hour?(eval_params)
+
     end
+  end
+
+  def unconflicted_hour?(eval_params)
+    eval_params[:times_included] == 1
+  end
+
+  def add_unconflicted_worker_to_working_schedule(eval_params, supervised_hr)
+    @working_schedule << { hour_rage: supervised_hr, worker: eval_params[:unique_worker] }
+    updating_workers_hours(eval_params[:unique_worker], supervised_hr)
   end
 
   def create_nodes_series
