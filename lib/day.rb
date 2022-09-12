@@ -45,7 +45,7 @@ class Day
   def fill_conflicted_hours
     return if @range_supervised_hours.empty?
 
-    workers_conflicted_hrs.each do |worker|
+    workers_available.each do |worker|
       @range_supervised_hours.each do |supervised_hour|
         if worker.worker_range.include?(supervised_hour)
           add_conflicts(@conflicts, worker, supervised_hour, @conflicted_hours)
@@ -101,9 +101,9 @@ class Day
     return if @range_supervised_hours.empty? || @conflicts.empty?
 
     create_nodes_series
-    nodes_counter = @nodes_series.last
+    max_times_combinations = @nodes_series.last
 
-    times_iterating = nodes_counter / @nodes_series.first
+    times_iterating = max_times_combinations / @nodes_series.first
 
     @conflicts.first.last.each do |worker|
       times_iterating.times { @array_nodes << ArrayList.new(@conflicts.first.first, worker, @max_hours_per_worker) }
@@ -128,10 +128,10 @@ class Day
 
     node_sequence = add_complete_series_per_level
 
-    node_sequence.each_with_index do |series, i|
+    node_sequence.each_with_index do |worker, i|
       @array_nodes.each_with_index do |worker_node, index|
-        worker_id = series[index].worker_id
-        working_hours = series[index].working_hours_counter
+        worker_id = worker[index].worker_id
+        working_hours = worker[index].working_hours_counter
         supervised_hours = @conflicted_hours[i]
         worker_node.add(supervised_hours, worker_id, working_hours)
       end
@@ -144,7 +144,7 @@ class Day
     # worker.able_to_work = false if worker.working_hours_counter == @max_hours_per_worker
   end
 
-  def workers_conflicted_hrs
+  def workers_available
     @daily_turns.find_all(&:able_to_work)
   end
 end
