@@ -2,7 +2,7 @@
 
 # Department configuration
 class DepartmentConfiguration
-  attr_reader :@max_hours_per_day
+  attr_reader :max_hours_per_day, :min_hours_per_week
 
   def initialize
     @max_hours_per_day = 8
@@ -12,7 +12,7 @@ class DepartmentConfiguration
   def change_max_hours_per_day(num)
     return unless num.instance_of?(Integer)
 
-    @max_hours_per_worker = num
+    @max_hours_per_day = num
   end
 
   def change_max_hours_per_week(num)
