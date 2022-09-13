@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'benchmark'
 require_relative 'helpers'
 require_relative 'array_list'
 
@@ -25,6 +26,11 @@ class Day
 
   def supervised_hours_fullfiled?
     @supervised_hours_fullfiled = true if @range_supervised_hours.empty?
+  end
+
+  def ignite
+    time = Benchmark.measure { start }
+    puts time.real
   end
 
   def start
