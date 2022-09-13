@@ -15,17 +15,11 @@ class Day
     @daily_turns = daily_turns
     @supervised_hours = available_hours_str_to_i(supervised_hours)
     @range_supervised_hours = create_daily_ranges(@supervised_hours)
-    @max_hours_per_worker = 8
     @conflicts = {}
     @conflicted_hours = []
     @working_schedule = []
     @array_nodes = []
     @nodes_series = []
-    @supervised_hours_fullfiled = false
-  end
-
-  def supervised_hours_fullfiled?
-    @supervised_hours_fullfiled = true if @range_supervised_hours.empty?
   end
 
   def ignite
@@ -38,7 +32,6 @@ class Day
     fill_conflicted_hours
 
     create_alternatives_on_conflicts
-    supervised_hours_fullfiled?
   end
 
   def create_alternatives_on_conflicts
@@ -51,7 +44,7 @@ class Day
   def fill_conflicted_hours
     return if @range_supervised_hours.empty?
 
-    workers_available.each do |worker|
+    workers_available(@daily_turns).each do |worker|
       @range_supervised_hours.each do |supervised_hour|
         if worker.worker_range.include?(supervised_hour)
           add_conflicts(@conflicts, worker, supervised_hour, @conflicted_hours)
@@ -77,14 +70,8 @@ class Day
 
         update_eval_params(eval_params, worker) if worker.worker_range.include?(supervised_hr)
       end
-
       add_unconflicted_worker_to_working_schedule(eval_params, supervised_hr) if unconflicted_hour?(eval_params)
-
     end
-  end
-
-  def unconflicted_hour?(eval_params)
-    eval_params[:times_included] == 1
   end
 
   def add_unconflicted_worker_to_working_schedule(eval_params, supervised_hr)
@@ -95,12 +82,6 @@ class Day
   def create_nodes_series
     total_nodes = 1
     @nodes_series = @conflicts.map { |_key, val| total_nodes *= val.size }
-  end
-
-  def remove_head_processed_sequence
-    @conflicts.shift
-    @nodes_series.shift
-    @conflicted_hours.shift
   end
 
   def creating_head_nodes
@@ -114,7 +95,7 @@ class Day
     @conflicts.first.last.each do |worker|
       times_iterating.times { @array_nodes << ArrayList.new(@conflicts.first.first, worker, @max_hours_per_worker) }
     end
-    remove_head_processed_sequence
+    remove_head_processed_sequence(@conflicts, @nodes_series, @conflicted_hours)
   end
 
   def convert_array_to_add_series
@@ -147,10 +128,6 @@ class Day
   def updating_workers_hours(worker, hr_range)
     @range_supervised_hours -= [hr_range]
     worker.add_one_working_hour
-    # worker.able_to_work = false if worker.working_hours_counter == @max_hours_per_worker
   end
 
-  def workers_available
-    @daily_turns.find_all(&:able_to_work)
-  end
 end

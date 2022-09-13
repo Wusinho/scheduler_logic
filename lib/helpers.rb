@@ -59,4 +59,18 @@ module Helpers
     conflicts[supervised_range] << worker
     conflicted_hours << supervised_range unless conflicted_hours.include?(supervised_range)
   end
+
+  def unconflicted_hour?(eval_params)
+    eval_params[:times_included] == 1
+  end
+
+  def remove_head_processed_sequence(conflicts, nodes_series, conflicted_hours)
+    conflicts.shift
+    nodes_series.shift
+    conflicted_hours.shift
+  end
+
+  def workers_available(daily_turns)
+    daily_turns.find_all(&:able_to_work)
+  end
 end
