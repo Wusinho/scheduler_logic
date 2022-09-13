@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_relative 'deparment_configuration'
+
 # creating a simple node
 class Node
   attr_reader :worker_id, :supervised_hour
@@ -19,10 +21,11 @@ class Node
 end
 
 # create arraylist
-class ArrayList
+class ArrayList < DepartmentConfiguration
   attr_reader :enable_to_sequence, :node_size
 
   def initialize(supervised_hour, worker, max_hrs_per_day = 8)
+    super()
     @max_hrs_per_day = max_hrs_per_day
     @enable_to_sequence = true
     @node_size = 1
@@ -36,7 +39,7 @@ class ArrayList
     current_node = current_node.next_node until current_node.next_node.nil?
 
     reader = print_arraylist(worker_id)
-    disable_list and return if reader['user_node']&.working_hrs_counter == 8
+    disable_list and return if reader['user_node']&.working_hrs_counter == @max_hours_per_worker
 
     current_node.next_node = Node.new(supervised_hour,worker_id, working_hours)
     if reader['counter'].zero?

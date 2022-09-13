@@ -73,4 +73,10 @@ module Helpers
   def workers_available(daily_turns)
     daily_turns.find_all(&:able_to_work)
   end
+
+  def create_nodes_series(conflicts)
+    total_nodes = 1
+    conflicts.map { |_key, val| total_nodes *= val.size }
+  end
+
 end

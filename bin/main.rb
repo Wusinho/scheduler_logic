@@ -13,6 +13,7 @@ all_turns = [bot1, bot2, bot3]
 
 monday = Day.new(all_turns, ['0-24'])
 monday.ignite
+# p monday.max_hours_per_worker
 # monday.working_schedule.each {|time| p time}
 # p monday.supervised_hours_fullfiled
 # monday.working_schedule.each { |hour| p hour }

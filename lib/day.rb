@@ -79,15 +79,8 @@ class Day
     updating_workers_hours(eval_params[:unique_worker], supervised_hr)
   end
 
-  def create_nodes_series
-    total_nodes = 1
-    @nodes_series = @conflicts.map { |_key, val| total_nodes *= val.size }
-  end
-
   def creating_head_nodes
-    return if @range_supervised_hours.empty? || @conflicts.empty?
-
-    create_nodes_series
+    @nodes_series = create_nodes_series(@conflicts)
     max_times_combinations = @nodes_series.last
 
     times_iterating = max_times_combinations / @nodes_series.first
@@ -111,8 +104,6 @@ class Day
   end
 
   def create_node_sequence
-    return if @range_supervised_hours.empty? || @conflicts.empty?
-
     node_sequence = add_complete_series_per_level
 
     node_sequence.each_with_index do |worker, i|

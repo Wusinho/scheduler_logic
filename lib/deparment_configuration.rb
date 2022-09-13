@@ -2,7 +2,9 @@
 
 # Department configuration
 class DepartmentConfiguration
-  def initialize(max_hours_per_worker)
-    @max_hours_per_worker = max_hours_per_worker
+  attr_accessor :max_hours_per_worker
+
+  def initialize
+    @max_hours_per_worker = 8
   end
 end
