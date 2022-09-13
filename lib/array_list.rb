@@ -39,7 +39,7 @@ class ArrayList < DepartmentConfiguration
     current_node = current_node.next_node until current_node.next_node.nil?
 
     reader = print_arraylist(worker_id)
-    disable_list and return if reader['user_node']&.working_hrs_counter == @max_hours_per_worker
+    disable_list and return if reader['user_node']&.working_hrs_counter == @max_hours_per_day
 
     current_node.next_node = Node.new(supervised_hour,worker_id, working_hours)
     if reader['counter'].zero?

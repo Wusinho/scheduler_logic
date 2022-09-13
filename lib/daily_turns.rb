@@ -28,7 +28,7 @@ class DailyTurns < DepartmentConfiguration
   end
 
   def add_more_work_hrs?
-    @working_hours_counter < @max_hours_per_worker
+    @working_hours_counter < @max_hours_per_day
   end
 
 end
