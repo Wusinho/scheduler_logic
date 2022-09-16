@@ -109,6 +109,8 @@ class Day
 
     node_sequence.each_with_index do |worker, i|
       @array_nodes.each_with_index do |worker_node, index|
+        next unless worker_node.enable_to_sequence
+
         worker_id = worker[index].worker_id
         working_hours = worker[index].working_hours_counter
         supervised_hours = @conflicted_hours[i]
