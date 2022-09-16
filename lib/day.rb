@@ -76,7 +76,7 @@ class Day
   end
 
   def add_unconflicted_worker_to_working_schedule(eval_params, supervised_hr)
-    @working_schedule << { hour_rage: supervised_hr, worker: eval_params[:unique_worker] }
+    @working_schedule << { hour_rage: supervised_hr, worker: eval_params[:unique_worker].worker_id }
     updating_workers_hours(eval_params[:unique_worker], supervised_hr)
   end
 
