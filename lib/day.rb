@@ -66,7 +66,8 @@ class Day
     @range_supervised_hours.each do |supervised_hr|
       eval_params = { times_included: 0, unique_worker: nil }
       @daily_turns.each do |worker|
-        next if !worker.able_to_work || eval_params[:times_included] >= 2
+        next unless worker.able_to_work
+        break if eval_params[:times_included] >= 2
 
         update_eval_params(eval_params, worker) if worker.worker_range.include?(supervised_hr)
       end
