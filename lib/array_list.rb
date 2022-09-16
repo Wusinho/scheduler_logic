@@ -82,10 +82,10 @@ class ArrayList < DepartmentConfiguration
   def print_worker_list
     node = @head
     workers_ids = []
-    workers_ids << node.worker_id
+    workers_ids << { worker_id: node.worker_id, supervised_hr: node.supervised_hour }
 
     while (node = node.next_node)
-      workers_ids << node.worker_id
+      workers_ids << { worker_id: node.worker_id, supervised_hr: node.supervised_hour }
     end
     workers_ids
   end

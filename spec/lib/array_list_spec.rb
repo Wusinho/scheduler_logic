@@ -23,7 +23,7 @@ describe 'Array List' do
     node_list = ArrayList.new(supervised_hr, @worker_1)
     node_list.add(supervised_hr, @worker_2.worker_id, @worker_2.working_hours_counter)
     node_list.add(supervised_hr, @worker_3.worker_id, @worker_3.working_hours_counter)
-    expect(node_list.print_worker_list).to eql [1, 2, 3]
+    expect(node_list.print_worker_list).to eql [{supervised_hr: [9, 10], worker_id: 1}, {supervised_hr: [9, 10], worker_id: 2}, {supervised_hr: [9, 10], worker_id: 3}]
   end
 
   it 'as long as the working hrs are not exceeding the node will continue adding more available workers' do
@@ -45,7 +45,7 @@ describe 'Array List' do
     node_list.add(supervised_hr, @worker_2.worker_id, @worker_2.working_hours_counter)
     node_list.add(supervised_hr, @worker_2.worker_id, @worker_2.working_hours_counter)
     expect(node_list.enable_to_sequence).to be_falsey
-    expect(node_list.print_worker_list).to eql [1, 2, 2]
+    expect(node_list.print_worker_list).to eql [{supervised_hr: [10, 11], worker_id: 1}, {supervised_hr: [10, 11], worker_id: 2}, {supervised_hr: [10, 11], worker_id: 2}]
     expect(node_list.node_size).to eql 3
 
   end
