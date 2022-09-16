@@ -14,6 +14,11 @@ describe 'Daily turn' do
     expect(bot1.working_hours_counter).to eql 0
   end
 
+  it 'adds one more hour everytime the worker takes an hour of work' do
+    expect { bot1.add_one_working_hour }.to change { bot1.working_hours_counter }.from(0).to(1)
+    expect { bot1.add_one_working_hour }.to change { bot1.working_hours_counter }.from(1).to(2)
+  end
+
   it 'if the worker passes the 8hrs per day it cannot be elegible to work' do
     8.times { bot1.add_one_working_hour }
     expect(bot1.working_hours_counter).to eql 8
