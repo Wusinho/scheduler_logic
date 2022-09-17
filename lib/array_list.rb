@@ -77,14 +77,16 @@ class ArrayList < DepartmentConfiguration
     reader
   end
 
-  # return the workers ids in order
+  # return full description of the node
   def print_worker_list
+    return unless @enable_to_sequence
+
     node = @head
     workers_ids = []
-    workers_ids << { worker_id: node.worker_id, supervised_hr: node.supervised_hour }
+    workers_ids << { supervised_hr: node.supervised_hour, worker_id: node.worker_id }
 
     while (node = node.next_node)
-      workers_ids << { worker_id: node.worker_id, supervised_hr: node.supervised_hour }
+      workers_ids << { supervised_hr: node.supervised_hour, worker_id: node.worker_id }
     end
     workers_ids
   end
