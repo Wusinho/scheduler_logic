@@ -87,7 +87,7 @@ class Day
     times_iterating = max_times_combinations / @nodes_series.first
 
     @conflicts.first.last.each do |worker|
-      times_iterating.times { @array_nodes << ArrayList.new(@conflicts.first.first, worker, @max_hours_per_worker) }
+      times_iterating.times { @array_nodes << ArrayList.new(@conflicts.first.first, worker) }
     end
     remove_head_processed_sequence(@conflicts, @nodes_series, @conflicted_hours)
   end

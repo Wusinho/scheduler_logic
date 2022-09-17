@@ -24,9 +24,8 @@ end
 class ArrayList < DepartmentConfiguration
   attr_reader :enable_to_sequence, :node_size
 
-  def initialize(supervised_hour, worker, max_hrs_per_day = 8)
+  def initialize(supervised_hour, worker)
     super()
-    @max_hrs_per_day = max_hrs_per_day
     @enable_to_sequence = true
     @node_size = 1
     @head = Node.new(supervised_hour, worker.worker_id, worker.working_hours_counter, true)
