@@ -22,13 +22,14 @@ end
 
 # create arraylist
 class ArrayList < DepartmentConfiguration
-  attr_reader :enable_to_sequence, :node_size
+  attr_reader :enable_to_sequence, :node_size, :workers_list
 
   def initialize(supervised_hour, worker)
     super()
     @enable_to_sequence = true
     @node_size = 1
     @head = Node.new(supervised_hour, worker.worker_id, worker.working_hours_counter, true)
+    @workers_list = []
   end
 
   def add(supervised_hour, worker_id, working_hours)
@@ -82,13 +83,10 @@ class ArrayList < DepartmentConfiguration
     return unless @enable_to_sequence
 
     node = @head
-    workers_ids = []
-    workers_ids << { supervised_hr: node.supervised_hour, worker_id: node.worker_id }
-
+    @workers_list << { supervised_hr: node.supervised_hour, worker_id: node.worker_id }
     while (node = node.next_node)
-      workers_ids << { supervised_hr: node.supervised_hour, worker_id: node.worker_id }
+      @workers_list << { supervised_hr: node.supervised_hour, worker_id: node.worker_id }
     end
-    workers_ids
   end
 
 end

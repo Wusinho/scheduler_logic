@@ -34,11 +34,35 @@ class Day
     create_alternatives_on_conflicts
   end
 
+  def print_workes_list
+    @array_nodes.each(&:print_worker_list)
+  end
+
+  def unique_enabled_nodes
+    p @range_supervised_hours
+    print_workes_list
+    clean_node = []
+    sequence = @array_nodes.find_all(&:enable_to_sequence)
+
+    sequence.each do |node|
+      p node.workers_list
+      clean_node << node.workers_list unless clean_node.include?(node.workers_list)
+    end
+    p '-'*200
+
+    clean_node.each {|node| p node}
+
+    p '-'*200
+    # @array_nodes = clean_node
+  end
+
   def create_alternatives_on_conflicts
     return if @range_supervised_hours.empty? || @conflicts.empty?
 
     creating_head_nodes
     create_node_sequence
+    unique_enabled_nodes
+
   end
 
   def fill_conflicted_hours
@@ -82,13 +106,15 @@ class Day
 
   def creating_head_nodes
     @nodes_series = create_nodes_series(@conflicts)
+    test_nodec_creation(@conflicts)
     max_times_combinations = @nodes_series.last
-
     times_iterating = max_times_combinations / @nodes_series.first
-
+    # p @nodes_series.length
+    # p times_iterating
     @conflicts.first.last.each do |worker|
       times_iterating.times { @array_nodes << ArrayList.new(@conflicts.first.first, worker) }
     end
+    # @array_nodes.each { |node| p node}
     remove_head_processed_sequence(@conflicts, @nodes_series, @conflicted_hours)
   end
 

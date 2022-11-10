@@ -79,4 +79,13 @@ module Helpers
     conflicts.map { |_key, val| total_nodes *= val.size }
   end
 
+  def test_nodec_creation(conflicts)
+    total_nodes = 1
+    conflicts.map do |_key, val|
+      total_nodes *= val.size
+      p total_nodes
+    end
+  end
+
+
 end
